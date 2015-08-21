@@ -28,7 +28,7 @@ describe Textmagic::REST::Client do
   end
 
   it 'should not raise an error if response body is empty' do
-    FakeWeb.register_uri(:any, %r/api\.textmagictesting\.com/, body: '')
+    FakeWeb.register_uri(:any, %r/rest\.textmagic\.com/, body: '')
     client = Textmagic::REST::Client.new 'username', 'token'
     client.messages.delete 1
   end
@@ -42,13 +42,13 @@ describe Textmagic::REST::Client do
   it 'should set up proper default ssl connection' do
     client = Textmagic::REST::Client.new 'username', 'token'
     conn = client.instance_variable_get(:@conn)
-    expect(conn.address).to eq('api.textmagictesting.com')
+    expect(conn.address).to eq('rest.textmagic.com')
     expect(conn.port).to eq(443)
     expect(conn.use_ssl?).to eq(true)
   end
 
   it 'should have a ping method' do
-    FakeWeb.register_uri(:any, %r/api\.textmagictesting\.com/, body: '{"ping": "pong"}')
+    FakeWeb.register_uri(:any, %r/rest\.textmagic\.com/, body: '{"ping": "pong"}')
     client = Textmagic::REST::Client.new 'username', 'token'
     expect(client).to respond_to(:ping)
     expect(client.ping).to eq('pong')
