@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{TextMagic APIv2 client.}
   spec.description   = %q{TextMagic APIv2 client}
-  spec.homepage      = "https://github.com/textmagic/textmagic-ruby"
+  spec.homepage      = "https://github.com/textmagic/textmagic-rest-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

@@ -38,6 +38,10 @@ module Textmagic
         setup_resources
       end
 
+      def inspect # :nodoc:
+        "<#{self.class} @username=#{@username}>"
+      end
+
       HTTP_HEADERS = {
           'Accept' => 'application/json',
           'Accept-Charset' => 'utf-8',

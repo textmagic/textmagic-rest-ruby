@@ -9,6 +9,10 @@ module Textmagic
         load_attributes params
       end
 
+      def inspect # :nodoc:
+        "<#{self.class} @path=#{@path}>"
+      end
+
       def load_attributes(hash)
         metaclass = class << self; self; end
         hash.each do |k,v|

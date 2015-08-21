@@ -22,6 +22,10 @@ module Textmagic
         @list_key, @instance_id_key = to_underscore_case(resource_name), 'id'
       end
 
+      def inspect # :nodoc:
+        "<#{self.class} @path=#{@path}>"
+      end
+
       def list(params={})
         if params.key?('search') or params.key?(:search)
           [:search, 'search'].each do |search|
