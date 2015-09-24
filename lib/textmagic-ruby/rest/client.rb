@@ -96,6 +96,19 @@ module Textmagic
         @conn.ca_file = File.dirname(__FILE__) + '/../../../conf/cacert.pem'
       end
 
+      # Unpack and return the nested error messages
+      def pretty_hash_message(msg_hash)
+        message = msg_hash['message']
+        if msg_hash['errors']
+          msg_hash['errors'].each do |k,v|
+            if msg_hash['errors'][k]
+              message = "#{message}:\n#{k}: #{v}"
+            end
+          end
+        end
+        message
+      end
+
       def make_request(request)
 
         response = @conn.request request
@@ -112,8 +125,13 @@ module Textmagic
           object = {:message => 'Bad request', :code => 400}
         end
 
+        message = nil
+        if object.is_a? Hash
+          message = pretty_hash_message(object)
+        end
+
         if response.kind_of? Net::HTTPClientError
-          raise Textmagic::REST::RequestError.new object['message'], object['code']
+          raise Textmagic::REST::RequestError.new message, object['code']
         end
         object
       end
