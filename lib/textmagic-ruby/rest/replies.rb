@@ -36,6 +36,9 @@ module Textmagic
       #   @replies = client.replies.list
       #
       def list(params={})
+        if params.has_key? :search
+          params.delete(:search) unless params[:search]
+        end
         super params
       end
 
