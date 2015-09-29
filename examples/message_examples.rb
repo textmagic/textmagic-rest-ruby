@@ -3,8 +3,10 @@ require 'textmagic-ruby'
 
 puts ' *** Running message examples *** '
 
-username = 'xxx'
-token = 'xxx'
+username = ''
+token = ''
+
+interval = 0.7
 
 client = Textmagic::REST::Client.new username, token
 
@@ -14,7 +16,7 @@ params = {
     :text => text,
     :phones => phones
 }
-sleep 0.5
+sleep interval
 new_message = client.messages.create(params)
 
 puts new_message.id > 0
@@ -22,7 +24,7 @@ puts !new_message.href.nil?
 puts !new_message.message_id.nil?
 puts !new_message.session_id.nil?
 
-sleep 0.5
+sleep interval
 message = client.messages.get(new_message.id)
 
 puts message.id == new_message.id
@@ -31,7 +33,7 @@ puts message.text == text
 params = {
     :page => 2
 }
-sleep 0.5
+sleep interval
 messages = client.messages.list(params)
 
 puts messages.page == 2
@@ -39,7 +41,7 @@ puts messages.page_count > 0
 puts messages.resources.kind_of? Array
 puts messages.resources.length == 10
 
-sleep 0.5
+sleep interval
 
 params = {
     :search => true,
@@ -53,23 +55,23 @@ puts messages_search.resources.kind_of? Array
 puts messages_search.resources.length == 1
 puts messages_search.resources.first.id == new_message.id
 
-sleep 0.5
+sleep interval
 r = client.messages.delete new_message.id
 puts r
 
-sleep 0.5
+sleep interval
 begin
   message = client.messages.get(new_message.id)
 rescue Textmagic::REST::RequestError => err
   puts err.code == 404
 end
 
-sleep 0.5
+sleep interval
 price = client.messages.price({:text => 'Hello from Ruby Helper', :phones => '19025555555, 16465555555'})
 
 puts price.total > 0
 puts price.parts == 1
 
-sleep 0.5
+sleep interval
 
 puts ' *** Finish message examples *** '
