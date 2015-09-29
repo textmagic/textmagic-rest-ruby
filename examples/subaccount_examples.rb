@@ -3,11 +3,13 @@ require 'textmagic-ruby'
 
 puts ' *** Running subaccount examples *** '
 
-username = 'xxx'
-token = 'xxx'
+username = ''
+token = ''
+
+interval = 0.7
 
 client = Textmagic::REST::Client.new username, token
-sleep 0.5
+sleep interval
 subs = client.subaccounts.list
 
 puts subs.instance_of? Textmagic::REST::PaginateResource
@@ -23,7 +25,7 @@ puts subs.resources.first.respond_to? :currency
 puts subs.resources.first.respond_to? :timezone
 puts subs.resources.first.respond_to? :subaccount_type
 
-sleep 0.5
+sleep interval
 sub = client.subaccounts.get subs.resources.first.id
 
 puts subs.resources.first.instance_of? Textmagic::REST::Subaccount
@@ -39,13 +41,13 @@ puts sub.respond_to? :timezone
 puts sub.respond_to? :subaccount_type
 
 
-sleep 0.5
+sleep interval
 random_email = (0...10).map { ('a'..'z').to_a[rand(26)] }.join << '@mailinator.com'
 r = client.subaccounts.send_invite({:email => random_email, :role => 'A'})
 
 puts r
 
-sleep 0.5
+sleep interval
 r = client.subaccounts.delete sub.id
 
 puts r
