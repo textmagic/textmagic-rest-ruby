@@ -3,8 +3,8 @@ require 'textmagic-ruby'
 
 puts ' *** Running unsubscriber examples *** '
 
-username = ''
-token = ''
+username = 'andreylarionov'
+token = 'RM0o6Rcv39nU9fbfdT09Kyfpssv4qC'
 
 client = Textmagic::REST::Client.new username, token
 
