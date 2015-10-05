@@ -20,7 +20,7 @@ begin
   # See https://www.textmagic.com/docs/api/restrictions/#api-request-frequency-limit
   sleep 1
 
-  # This line creates and sends the outgoing message
+  # This creates and sends the outgoing message
   outgoing_message = client.messages.create(params)
   puts "The message id is: #{outgoing_message.id}"
   puts "The message URL is: #{outgoing_message.href}"
