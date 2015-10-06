@@ -37,6 +37,9 @@ module Textmagic
       #   @chat_messages = client.chats.get_by_phone 99990000
       #
       def get_by_phone(phone, params={})
+        if phone.nil? or phone.empty?
+          raise Textmagic::REST::RequestError.new 'You must specify a valid E.164 phone number.'
+        end
         response = @client.get "#{@path}/#{phone}", params
         PaginateResource.new "#{@path}", @client, response, Textmagic::REST::ChatMessage
       end
