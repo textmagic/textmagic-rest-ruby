@@ -16,17 +16,12 @@ begin
   # parameter with a real number to send an SMS message to an actual device
   params = {phones: '999123456', text: 'Sample text!'}
 
-  # Sleep to avoid rate limiting
-  # See https://www.textmagic.com/docs/api/restrictions/#api-request-frequency-limit
-  sleep 1
-
   # This creates and sends the outgoing message
   outgoing_message = client.messages.create(params)
   puts "The message id is: #{outgoing_message.id}"
   puts "The message URL is: #{outgoing_message.href}"
   # See the full set of available properties here: https://www.textmagic.com/docs/api/send-sms/#response
 
-  sleep 1
   # Now that we've sent the message, let's fetch data about it from the API
   messages = client.messages.list(params)
   sent_message = messages.resources.find { |m| m.id == outgoing_message.id }

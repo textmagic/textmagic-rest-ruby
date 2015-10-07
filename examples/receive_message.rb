@@ -11,7 +11,6 @@ user_name, api_key = tm_credentials
 # api_key = 'your_text_magic_api_key'
 
 begin
-  sleep 1 # Let's try to avoid rate restrictions per https://www.textmagic.com/docs/api/restrictions/#api-request-frequency-limit
   client = Textmagic::REST::Client.new user_name, api_key
 
   # First, let's see if we've received any messages

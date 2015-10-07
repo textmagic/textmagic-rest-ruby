@@ -8,8 +8,6 @@ token = 'xxx'
 
 client = Textmagic::REST::Client.new username, token
 
-sleep 0.5
-
 chats = client.chats.list()
 
 puts !chats.page.nil?
@@ -18,7 +16,6 @@ puts !chats.page_count.nil?
 puts chats.resources.length > 0
 puts chats.resources.first.instance_of? Textmagic::REST::Chat
 
-sleep 0.5
 chat_messages = client.chats.get_by_phone(chats.resources.first.phone)
 
 puts !chat_messages.page.nil?
