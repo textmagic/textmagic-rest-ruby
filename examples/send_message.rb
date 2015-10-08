@@ -11,6 +11,7 @@ username, api_key = tm_credentials
 # api_key = 'your_text_magic_api_key'
 
 begin
+  sleep 0.5
   client = Textmagic::REST::Client.new username, api_key
   # Any phone number that starts with 999 is a test phone number, replace the phones
   # parameter with a real number to send an SMS message to an actual device
@@ -25,6 +26,7 @@ begin
   puts "The message URL is: #{outgoing_message.href}"
 
   # Now that we've sent the message, let's fetch data about it from the API
+  sleep 0.5
   messages = client.messages.list(params)
   sent_message = messages.resources.find { |m| m.id == outgoing_message.id }
 

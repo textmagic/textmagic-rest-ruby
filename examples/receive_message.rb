@@ -11,6 +11,7 @@ username, api_key = tm_credentials
 # api_key = 'your_text_magic_api_key'
 
 begin
+  sleep 0.5
   client = Textmagic::REST::Client.new username, api_key
 
   # First, let's see if we've received any messages
