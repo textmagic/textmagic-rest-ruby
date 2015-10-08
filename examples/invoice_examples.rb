@@ -8,6 +8,7 @@ token = 'xxx'
 
 client = Textmagic::REST::Client.new username, token
 
+sleep 0.5
 invoices = client.invoices.list()
 
 puts invoices.respond_to? :page

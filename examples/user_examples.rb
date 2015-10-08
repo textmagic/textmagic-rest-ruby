@@ -7,6 +7,7 @@ username = 'xxx'
 token = 'xxx'
 
 client = Textmagic::REST::Client.new username, token
+sleep 0.5
 sources = client.users.sources
 
 puts sources.instance_of? Textmagic::REST::Source
@@ -19,6 +20,7 @@ puts sources.shared.kind_of? Array
 puts sources.respond_to? :sender_ids
 puts sources.sender_ids.kind_of? Array
 
+sleep 0.5
 m_stat = client.users.messaging_stat
 
 puts m_stat.kind_of? Array
@@ -35,6 +37,7 @@ puts m_stat.first.key? 'messagesSentFailed'
 puts m_stat.first.key? 'messagesSentRejected'
 puts m_stat.first.key? 'messagesSentParts'
 
+sleep 0.5
 s_stat = client.users.spending_stat()
 
 puts s_stat.instance_of? Textmagic::REST::PaginateResource
@@ -48,6 +51,7 @@ puts s_stat.resources.first.respond_to? :type
 puts s_stat.resources.first.respond_to? :value
 puts s_stat.resources.first.respond_to? :comment
 
+sleep 0.5
 user = client.users.get
 
 puts user.instance_of? Textmagic::REST::User
@@ -67,12 +71,14 @@ params = {
     :last_name => 'Doe',
     :company => user.company
 }
+sleep 0.5
 user_updated = client.users.update params
 
 puts !(user_updated.respond_to? :first_name)
 puts !(user_updated.respond_to? :last_name)
 puts !(user_updated.respond_to? :company)
 
+sleep 0.5
 user_updated.refresh
 
 puts user_updated.first_name == 'John'
@@ -84,12 +90,15 @@ params = {
     :lastName => user.last_name,
     :company => user.company
 }
+sleep 0.5
 user_updated = client.users.update params
+sleep 0.5
 user_updated.refresh
 
 puts user_updated.first_name == user.first_name
 puts user_updated.last_name == user.last_name
 puts user_updated.company == user.company
+sleep 0.5
 
 (0..4).map {puts client.ping; sleep 0.5}
 

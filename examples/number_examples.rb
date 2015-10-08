@@ -8,6 +8,7 @@ token = 'xxx'
 
 client = Textmagic::REST::Client.new username, token
 
+sleep 0.5
 available = client.numbers.available({:country => 'US'})
 
 puts available.respond_to? :numbers
@@ -17,6 +18,7 @@ puts available.numbers.length > 0
 puts available.respond_to? :price
 puts available.price > 0
 
+sleep 0.5
 user = client.users.get
 
 puts user.instance_of? Textmagic::REST::User
@@ -33,12 +35,14 @@ puts user.respond_to? :currency
 puts user.currency.kind_of? Hash
 puts user.respond_to? :subaccount_type
 
+# sleep 0.5
 # number = client.numbers.buy({:userId => user.id, :country => 'US', :phone => available.numbers.first})
 #
 # puts number.instance_of? Textmagic::REST::Number
 # puts number.respond_to? :id
 # puts number.respond_to? :href
 
+# sleep 0.5
 # number = client.numbers.get number.id
 #
 # puts number.respond_to? :id
@@ -51,6 +55,7 @@ puts user.respond_to? :subaccount_type
 # puts number.country.kind_of? Hash
 # puts number.respond_to? :status
 
+sleep 0.5
 numbers = client.numbers.list()
 
 puts numbers.respond_to? :page
@@ -59,6 +64,7 @@ puts numbers.respond_to? :page_count
 puts numbers.resources.length > 0
 puts numbers.resources.first.instance_of? Textmagic::REST::Number
 
+# sleep 0.5
 # r = client.numbers.delete(number.id)
 #
 # puts r
