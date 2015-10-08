@@ -3,12 +3,14 @@ require 'textmagic-ruby'
 
 puts ' *** Running invoice examples *** '
 
-username = 'xxx'
-token = 'xxx'
+username = ''
+token = ''
+
+interval = 0.7
 
 client = Textmagic::REST::Client.new username, token
 
-sleep 0.5
+sleep interval
 invoices = client.invoices.list()
 
 puts invoices.respond_to? :page

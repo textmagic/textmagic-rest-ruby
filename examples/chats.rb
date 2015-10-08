@@ -10,8 +10,11 @@ username, api_key = tm_credentials
 # username = 'your_text_magic_username'
 # api_key = 'your_text_magic_api_key'
 
-sleep 0.5
+
 client = Textmagic::REST::Client.new username, api_key
+
+interval = 0.7
+sleep interval
 
 chats = client.chats.list()
 puts "We have #{chats.page_count} page#{chats.page_count == 1 ? '' : 's'} of chats"
@@ -43,4 +46,5 @@ chat_messages.resources.each do |cm|
   puts "The chat message ID: #{cm.id}"
   puts "Message text: #{cm.text}"
 end
+
 
