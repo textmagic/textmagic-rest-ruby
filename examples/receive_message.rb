@@ -4,17 +4,17 @@ require './auth_helper'
 
 # This is the preferred method to pass your API credentials
 # set the environment variables TEXTMAGIC_USERNAME and TEXTMAGIC_API_KEY in your shell
-user_name, api_key = tm_credentials
+username, api_key = tm_credentials
 
 # If you must, you can uncomment and assign the credential variables here
-# user_name = 'your_text_magic_username'
+# username = 'your_text_magic_username'
 # api_key = 'your_text_magic_api_key'
 
 begin
-  client = Textmagic::REST::Client.new user_name, api_key
+  client = Textmagic::REST::Client.new username, api_key
 
   # First, let's see if we've received any messages
-  received_messages = client.replies.list(limit: 10, page: 1)
+  received_messages = client.replies.list()
   if received_messages.resources.length == 0
     puts 'We haven\'t received any SMS messages with our TextMagic account yet'
   else
