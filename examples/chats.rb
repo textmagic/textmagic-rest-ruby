@@ -10,10 +10,9 @@ username, api_key = tm_credentials
 # username = 'your_text_magic_username'
 # api_key = 'your_text_magic_api_key'
 
-
 client = Textmagic::REST::Client.new username, api_key
 
-interval = 0.7
+interval = 0.5
 sleep interval
 
 chats = client.chats.list()

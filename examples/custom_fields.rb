@@ -1,18 +1,23 @@
 require 'rubygems'
 require 'textmagic-ruby'
+require './auth_helper'
 
 puts ' *** Running custom field examples *** '
+# This is the preferred method for specifying your API credentials
+# set the environment variables TEXTMAGIC_USERNAME and TEXTMAGIC_API_KEY in your shell
+username, api_key = tm_credentials
 
-username = ''
-token = ''
+# If you must, you can uncomment and assign the credential variables here
+# username = 'your_text_magic_username'
+# api_key = 'your_text_magic_api_key'
 
-interval = 0.7
+interval = 0.5
 
-client = Textmagic::REST::Client.new username, token
+client = Textmagic::REST::Client.new username, api_key
 
 field_name = 'Ruby Helper'
 sleep interval
-field_new = client.custom_fields.create({:name => field_name})
+field_new = client.custom_fields.create(name: field_name)
 
 puts !field_new.id.nil?
 puts !field_new.href.nil?

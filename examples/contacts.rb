@@ -1,118 +1,81 @@
 require 'rubygems'
 require 'textmagic-ruby'
+require './auth_helper'
 
-puts ' *** Running contact examples *** '
+username, api_key = tm_credentials
 
-username = ''
-token = ''
 
-interval = 0.7
+interval = 0.5
 
-client = Textmagic::REST::Client.new username, token
+client = Textmagic::REST::Client.new username, api_key
 
-list_name = "TextMagic Ruby Helper"
-params = {
-    :name => list_name
-}
+list_name = 'An Example Contact List'
+puts "Creating a new list with the name: #{list_name}"
+params = { name: list_name }
 
 sleep interval
 new_list = client.lists.create(params)
 
 sleep interval
 list = client.lists.get(new_list.id)
-
-puts list.name == list_name
-
-params = {
-    :limit => 25
-}
+puts "The retrieved list name: #{list.name}"
 
 sleep interval
+params = { limit: 25 }
 lists = client.lists.list params
-
-puts lists.resources.length > 0
-puts lists.page == 1
-puts lists.page_count == 1
+puts "We found a total of #{lists.resources.length} contact lists"
 
 params = {
-    :search => true,
-    :ids => new_list.id
+    search: true,
+    ids: new_list.id
 }
-
 sleep interval
 lists = client.lists.list params
-
-puts lists.page == 1
-puts lists.resources.length == 1
-puts lists.resources.first.name == list_name
+puts "We found #{lists.resources.length} matching list(s)"
 
 contact_phone = '19025552671'
 params = {
-    :phone => contact_phone,
-    :lists => new_list.id
+    phone: contact_phone,
+    lists: new_list.id
 }
 
 sleep interval
 new_contact = client.contacts.create(params)
-
-puts new_contact.id > 0
-puts !new_contact.href.nil?
+puts "The new contact ID: #{new_contact.id}"
+puts "The new contact URL: #{new_contact.href}"
 
 sleep interval
 contact = client.contacts.get(new_contact.id)
-
-puts contact.id == new_contact.id
-puts contact.phone == contact_phone
+puts "The retrieved contact's ID: #{contact.id}"
 
 params[:first_name] = 'Zigmund'
 sleep interval
 u = client.contacts.update(contact.id, params)
-
-puts u.id == contact.id
-puts !u.href.nil?
-
-puts contact.first_name != 'Zigmund'
+puts "The contact's first name: #{contact.first_name}"
 
 sleep interval
 contact.refresh
-puts contact.first_name == 'Zigmund'
-
-sleep interval
-contact = client.contacts.get(new_contact.id)
-puts contact.first_name == 'Zigmund'
+puts "After a refresh, the contact's first name: #{contact.first_name}"
 
 sleep interval
 contact_list = client.contacts.list()
-
-puts !contact_list.page.nil?
-puts !contact_list.limit.nil?
-puts !contact_list.page_count.nil?
-puts contact_list.resources.length > 0
+puts "We found a total of #{contact_list.resources.length} contacts"
 
 sleep interval
-contact_list = client.contacts.list({:search=> true, :list_id => list.id})
-
-puts !contact_list.page.nil?
-puts !contact_list.limit.nil?
-puts !contact_list.page_count.nil?
-puts contact_list.resources.length == 1
+contact_list = client.contacts.list({search: true, list_id: list.id})
+puts "We found #{contact_list.resources.length} contacts in the new list: #{list.name}"
 puts contact_list.resources.first.id == contact.id
 
 sleep interval
 contact_lists = client.contacts.lists(contact.id)
-
-puts !contact_lists.page.nil?
-puts !contact_lists.limit.nil?
-puts !contact_lists.page_count.nil?
 puts contact_lists.resources.length == 1
 puts contact_lists.resources.first.id == list.id
 
 sleep interval
+puts "Deleting the contact #{new_contact.first_name}"
 r = client.contacts.delete(new_contact.id)
-puts r
 
 sleep interval
+puts "Deleting the list #{new_list.name}"
 r = client.lists.delete new_list.id
-puts r
 
-puts ' *** Finish contact examples *** '
