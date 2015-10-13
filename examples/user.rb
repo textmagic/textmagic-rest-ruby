@@ -1,14 +1,19 @@
 require 'rubygems'
 require 'textmagic-ruby'
+require './auth_helper'
 
 puts ' *** Running user examples *** '
+# This is the preferred method to pass your API credentials
+# set the environment variables TEXTMAGIC_USERNAME and TEXTMAGIC_API_KEY in your shell
+username, api_key = tm_credentials
 
-username = ''
-token = ''
+# If you must, you can uncomment and assign the credential variables here
+# username = 'your_text_magic_username'
+# api_key = 'your_text_magic_api_key'
 
-interval = 0.7
+interval = 0.5
 
-client = Textmagic::REST::Client.new username, token
+client = Textmagic::REST::Client.new username, api_key
 sleep interval
 sources = client.users.sources
 
@@ -71,8 +76,8 @@ puts user.respond_to? :subaccount_type
 params = {
     :first_name => 'John',
     :last_name => 'Doe',
-    :company => user.company
 }
+params[:company] = user.company if user.company
 sleep interval
 user_updated = client.users.update params
 
