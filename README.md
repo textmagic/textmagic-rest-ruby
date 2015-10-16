@@ -20,7 +20,7 @@ Or install it yourself as:
     $ gem install textmagic-ruby
 
 ## Usage
-```
+```ruby
 client = Textmagic::REST::Client.new 'your_text_magic_username', 'your_text_magic_api_key'
 
 # Send a text message
