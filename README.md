@@ -20,7 +20,7 @@ Or install it yourself as:
     $ gem install textmagic-ruby
 
 ## Usage
-
+```
 client = Textmagic::REST::Client.new 'your_text_magic_username', 'your_text_magic_api_key'
 
 # Send a text message
@@ -46,7 +46,7 @@ else
     puts ''
   end
 end
-
+```
 
 
 
