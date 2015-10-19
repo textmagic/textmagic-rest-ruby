@@ -2,13 +2,12 @@ require 'rubygems'
 require 'textmagic-ruby'
 
 puts ' *** Running unsubscriber examples *** '
-
 username = 'andreylarionov'
 token = 'RM0o6Rcv39nU9fbfdT09Kyfpssv4qC'
 
 client = Textmagic::REST::Client.new username, token
 
-interval = 0.7
+interval = 0.5
 
 sleep interval
 unsubscribers = client.unsubscribers.list

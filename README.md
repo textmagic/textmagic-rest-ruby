@@ -1,8 +1,7 @@
 # Textmagic::Ruby
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/textmagic/ruby`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+The Textmagic Ruby API is a convenient and flexible wrapper for the TextMagic REST API.  It provides functionality for
+sending, receiving and managing SMS text messages in Ruby.
 
 ## Installation
 
@@ -21,8 +20,35 @@ Or install it yourself as:
     $ gem install textmagic-ruby
 
 ## Usage
+```ruby
+client = Textmagic::REST::Client.new 'your_text_magic_username', 'your_text_magic_api_key'
 
-TODO: Write usage instructions here
+# Send a text message
+# Any phone number that starts with 999 is a test phone number
+# The phones parameter can contain more than one number (comma delimited)
+params = {phones: '9991234567,99945678910', text: 'This is a sample text message'}
+
+# This next line creates and sends the message
+sent_message = client.messages.create(params)
+puts "The sent message id: #{sent_message.id}"
+puts "The sent message URL: #{sent_message.href}"
+puts ''
+
+# Read messages sent to your Textmagic account
+# By default, client.replies.list() fetches the last 10 messages you've received
+received_messages = client.replies.list()
+if received_messages.resources.length == 0
+  puts 'We haven\'t received any SMS messages with our TextMagic account yet'
+else
+  received_messages.resources.each do |rm|
+    puts "The received message text: #{rm.text}"
+    puts "The message was sent from: #{rm.sender}"
+    puts ''
+  end
+end
+```
+
+
 
 ## Development
 
