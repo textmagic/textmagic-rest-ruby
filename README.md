@@ -1,7 +1,7 @@
 # Textmagic::Ruby
 
-The Textmagic Ruby API is a convenient and flexible wrapper for the TextMagic REST API.  It provides functionality for
-sending, receiving and managing SMS text messages in Ruby.
+The Textmagic Ruby API is a convenient and flexible wrapper for the [TextMagic REST API](https://www.textmagic.com/docs/api/).  It provides functionality for
+sending, receiving and managing SMS text messages in pure Ruby.  See the [RDoc documentation](http://www.rubydoc.info/github/textmagic/textmagic-rest-ruby) specifically for this gem.
 
 ## Installation
 
