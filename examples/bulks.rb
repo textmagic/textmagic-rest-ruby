@@ -9,26 +9,34 @@ username, api_key = tm_credentials
 # If you must, you can uncomment and assign the credential variables here
 # username = 'your_text_magic_username'
 # api_key = 'your_text_magic_api_key'
-
-puts ' *** Running bulk examples *** '
-
 client = Textmagic::REST::Client.new username, api_key
 
 interval = 0.5
 sleep interval
-bulks = client.bulks.list
 
-puts bulks.respond_to? :page
-puts bulks.respond_to? :limit
-puts bulks.respond_to? :page_count
-puts bulks.resources.length > 0
+# Any phone number that starts with 999 is a test phone number
+# A bulk message is one that is sent to more than 1000 recipients
+bulk_number_list = '999'
+1000.times do |n|
+  bulk_number_list << ",999#{n}"
+end
+
+params = {phones: bulk_number_list, text: 'Sample text!'}
+# This creates AND sends the outgoing messages
+client.messages.create(params)
+
+bulk_messages = client.bulks.list()
 
 sleep interval
 
-if bulks.resources.length > 0
-  bulk = client.bulks.get(bulks.resources.first.id)
+# Let's look at the last bulk message which we've just sent
+# It will be the first element in the resources array
+bulk_message = client.bulks.get(bulk_messages.resources.first.id)
+puts "Bulk message id: #{bulk_message.id}"
+puts "Bulk message status: #{bulk_message.status}"
+puts "#{bulk_message.items_processed} out of #{bulk_message.items_total} have been processed"
+puts "Bulk message text: #{bulk_message.text}"
 
-  puts bulk.id == bulks.resources.first.id
-end
 
-puts ' *** Finish bulk examples *** '
+
+

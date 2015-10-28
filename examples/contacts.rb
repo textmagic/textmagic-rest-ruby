@@ -21,7 +21,7 @@ list = client.lists.get(new_list.id)
 puts "The retrieved list name: #{list.name}"
 
 sleep interval
-params = { limit: 25 }
+params = { limit: 25 } # The default limit is 10
 lists = client.lists.list params
 puts "We found a total of #{lists.resources.length} contact lists"
 
