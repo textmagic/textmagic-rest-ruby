@@ -28,7 +28,7 @@ def delete_custom_field(client, name)
   end
 end
 
-puts "Creating a new custom field with the name: #{field_name}"
+puts "Creating a custom field with the name: #{field_name}"
 # Add some extra handling in case this custom field already exists
 custom_field = nil
 begin
@@ -39,20 +39,20 @@ rescue Textmagic::REST::RequestError => e
     # Existing field should be gone now, try again
     custom_field = client.custom_fields.create(name: field_name)
   else
-    puts "Failed to create the new custom field due to this exception:"
+    puts "Failed to create the custom field due to this exception:"
     puts e.message
     puts e.backtrace
   end
 end
 
-puts "The new custom field's id: #{custom_field.id}"
-puts "The new custom field's URL: #{custom_field.href}"
+puts "The custom field's id: #{custom_field.id}"
+puts "The custom field's URL: #{custom_field.href}"
 # Note that this custom field object does NOT have a name
-puts "Does the new custom field object have a name? #{custom_field.respond_to? :name}"
+puts "Does the custom field object have a name? #{custom_field.respond_to? :name}"
 
 # But, you can get the name on this object by "refreshing" it
-custom_field.refresh()
-puts "The new custom field name: #{custom_field.name}"
+custom_field.refresh
+puts "The custom field name: #{custom_field.name}"
 
 sleep interval
 # Retrieve the field by its ID
@@ -64,30 +64,56 @@ sleep interval
 delete_custom_field client, updated_field_name
 
 sleep interval
-updated_field = client.custom_fields.update(retrieved_field.id, {:name => updated_field_name})
-puts "Before refresh - does the updated custom field have a name? #{updated_field.respond_to? :name}"
+client.custom_fields.update(retrieved_field.id, {:name => updated_field_name})
 
 sleep interval
-updated_field.refresh()
-puts "The updated custom field name after refresh: #{updated_field.name}"
+puts "The updated custom field name before a refresh: #{custom_field.name}"
+custom_field.refresh
+puts "The updated custom field name after a refresh: #{custom_field.name}"
+
+# Create a new contact list or use one if it already exists with the name list_name
+sleep interval
+list_name = 'A New Contact List'
+list_search = client.lists.list(search: true, name: list_name)
+contact_list = nil
+if list_search.resources.length == 1
+  contact_list = list_search.resources[0]
+else
+  sleep interval
+  contact_list = client.lists.create({:name => 'A New Contact List'})
+end
+
+# Do the same for a new contact
+sleep interval
+phone_number = '99991738182'
+contact_search = client.contacts.list(search: true, query: phone_number)
+contact = nil
+if contact_search.resources.length == 1
+  contact = contact_search.resources[0]
+else
+  sleep interval
+  contact = client.contacts.create({:phone => phone_number, :lists => contact_list.id})
+  # Note that if we've just created a contact, we need to refresh here to get it custom_fields property
+  sleep interval
+  contact.refresh
+end
 
 sleep interval
-list = client.lists.create({:name => 'A New Contact List'})
-sleep interval
-contact = client.contacts.create({:phone => '99991738182', :lists => list.id})
+client.custom_fields.update_value(custom_field.id, {:contactId => contact.id, :value => 'Custom Field Value!'})
 
 sleep interval
-updated_contact = client.custom_fields.update_value(field.id, {:contactId => contact.id, :value => 'new value'})
+puts "Before the refresh, the contact's custom field array has #{contact.custom_fields.length} elements"
+contact.refresh
+puts "After the refresh, the contact's custom field data is: #{contact.custom_fields[0]}"
+
+# Clean up the test data now
+sleep interval
+puts "Did we successfully delete the new custom field? #{client.custom_fields.delete(custom_field.id)}"
 
 sleep interval
-contact.refresh()
+puts "Did we successfully delete the new contact? #{client.contacts.delete(contact.id)}"
 
 sleep interval
-r = client.custom_fields.delete(custom_field.id)
-puts r
+puts "Did we successfully delete the new contact list? #{client.lists.delete(contact_list.id)}"
 
-sleep interval
-puts client.lists.delete(list.id)
-
-sleep interval
 
