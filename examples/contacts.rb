@@ -4,7 +4,6 @@ require './auth_helper'
 
 username, api_key = tm_credentials
 
-
 interval = 0.5
 
 client = Textmagic::REST::Client.new username, api_key
