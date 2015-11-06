@@ -19,10 +19,10 @@ invoices = client.invoices.list()
 
 invoices.resources.each do |inv|
   puts "The invoice ID: #{inv.id}"
-  puts "The bundle amount: #{inv.id}"
-  puts "The currency: #{inv.id}"
-  puts "The VAT: #{inv.id}"
-  puts "The payment method description: #{inv.id}"
+  puts "The bundle amount: #{inv.bundle}"
+  puts "The currency: #{inv.currency}"
+  puts "The VAT: #{inv.vat}"
+  puts "The payment method description: #{inv.payment_method}"
 end
 
 
